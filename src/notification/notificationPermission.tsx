@@ -1,10 +1,17 @@
 import { Alert } from "react-native";
 import notifee from '@notifee/react-native';
+import messaging from '@react-native-firebase/messaging';
+import { registerToken } from "../api/apiService";
 
 
 export const resquestPermission =async () => {
     await notifee.requestPermission()
     await notifee.setBadgeCount(0)
+    await messaging().registerDeviceForRemoteMessages() // this is a paid service its needs apple developer accountsa and 99 dollars but for android its free.
+
+    const token = await messaging().getToken()
+    console.log(token)
+    await registerToken(token)
 }
 
 // 1. get info on the device and the Power Manager settings
